@@ -4,7 +4,7 @@
   "description": "API for identifying and linking related contacts",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc && cp .env dist/.env",
+    "build": "tsc",
     "start": "node dist/server.js",
     "dev": "ts-node-dev --respawn src/server.ts",
     "test": "jest",

@@ -6,20 +6,29 @@ import helmet from "helmet";
 import { logger } from "./utils/logger";
 import { apiRoutes } from "./routes";
 import { errorHandler } from "./middleware/errorHandler";
+import path from "path";
 
-dotenv.config();
+// Load environment variables
+dotenv.config({
+  path: path.join(__dirname, "../.env"),
+});
 
+// Create Express app
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Middleware
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+// Routes
 app.use("/api", apiRoutes);
 
+// Error handling middleware
 app.use(errorHandler);
 
+// Connect to MongoDB
 const connectDB = async () => {
   try {
     const mongoURI =
@@ -33,6 +42,7 @@ const connectDB = async () => {
   }
 };
 
+// Start server
 const startServer = async () => {
   await connectDB();
 
@@ -41,6 +51,7 @@ const startServer = async () => {
   });
 };
 
+// Handle unhandled promise rejections
 process.on("unhandledRejection", (err: Error) => {
   logger.error("Unhandled Rejection:", err);
   process.exit(1);
